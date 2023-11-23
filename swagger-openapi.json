@@ -1,0 +1,393 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentacion de la API de events",
+        "version": "1.0.0"
+    },
+    "paths":{
+        "/api/events": {
+            "get": {
+                "summary": "Obtener todos los events",
+                "responses":{
+                    "200":{
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/definitions/Event"
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "events not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "crear un event y guardarlo en la base de datos",
+                "requestBody": {
+                    "content": {
+                        "application/json":{
+                            "schema": {
+                                        "$ref": "#/definitions/Event"
+                                    }
+                                }
+                            }
+                        },
+                    
+                
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+
+                                "schema": {
+                                    "type": "object",
+                                    "properties":{
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Event created"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "borrar todos los eventos",
+                "responses": {
+                    "201":{
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "success":{
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "todos los elementos eliminados"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content":{
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "success":{
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "error al eliminar todos los eventos"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/events/{id}":{
+            "get":{
+                "summary":"Obtener un evento por id",
+                "parameters":[ {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema":{
+                        "type": "string"
+                    }
+                }],
+                "responses": {
+                    "200":{
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/definitions/Event"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "success":{
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al obtener evento"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put":{
+                "summary": "actualizar evento por id",
+                "parameters":[{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema":{
+                        "type": "string"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "success":{
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "event":{
+                                            "$ref": "#/definitions/Event"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "event update"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "success":{
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                    
+                                        "message": {
+                                            "type": "string",
+                                            "example": "no se pudo actualizar"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "success":{
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "error al actualizar evento"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "summary": "eliminar un evento por id",
+                "parameters":[{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type": "string"
+                        }
+                    }],
+                "responses":{
+                    "201":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "success":{
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Evento eliminado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "success":{
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al eliminar evento"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/events/all":{
+            "post": {
+                "summary": "crear eventos",
+                "parameters":
+                    
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Event"
+                        }
+
+                    },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+
+                                "schema": {
+                                    "type": "object",
+                                    "properties":{
+                                        "success":{
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "events":{
+                                            "type":"object",
+                                             "$ref": "#/definitions/Event"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "events created"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "content": {
+                            "application/json": {
+
+                                "schema": {
+                                    "type": "object",
+                                    "properties":{
+                                        "success":{
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "error create events"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions":{
+
+        "Event": {
+            "type": "object",
+            "properties":{
+                "name":{
+                    "type": "string",
+                    "example": "Collectivities"
+                },
+                "category":{
+                    "type": "string",
+                    "example": "Food"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "2021-12-12"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "description"
+                },
+                "image": {
+                    "type": "string",
+                    "example": "https://i.postimg.cc/kXWrBjXC/collectivities-party.jpg"
+                },
+                "place": {
+                    "type": "string",
+                    "example": "Multi Space"
+                },
+                "price": {
+                    "type": "number",
+                    "example": 10
+                },
+                "capacity": {
+                    "type": "number",
+                    "example": 5000
+                },
+                "assistance": {
+                    "type": "number",
+                    "example": 4000
+                },
+                "estimate": {
+                    "type": "number",
+                    "example": 4000
+                }
+            }
+        }
+    }
+}
